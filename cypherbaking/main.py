@@ -1,3 +1,36 @@
+def menu():
+    print("Welcome to Cyberbaking")
+    menu = True
+
+    while menu:
+        print("1) Encrypt message")
+        print("2) Decrypt message")
+        print("3) Exit")
+
+        opcion = input()
+
+        if opcion == "1":
+            encryptMessage()
+            menu = False
+
+        elif opcion == "2":
+            decryptMessage()
+            menu = False
+
+        elif opcion == "3":
+            menu = False
+
+        else:
+            print("Invalid input")
+
+
+def encryptMessage():
+    print("Encrypt")
+
+
+def decryptMessage():
+    print("Decrypt")
+
 
 print("*********************************************************************")
 print("""
@@ -16,4 +49,4 @@ print("  La Panaderia")
 print("  https://github.com/carloscast1llo/CypherBaking")
 print("*********************************************************************")
 
-
+menu()
