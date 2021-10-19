@@ -399,7 +399,7 @@ def decryptMessage():
     elif option == "7":
         fromMorse()
     elif option == "8":
-        fromMD5()
+        print(" (Go to (https://crackstation.net/))")
     else:
         toSHA256()
 
