@@ -274,34 +274,67 @@ def fromXor():
 
     print("Decrypted Text: {}".format(decryp_text))
 
-def toCesar():
 
-def fromCesar():
+# def toCesar():
+
+# def fromCesar():
 
 
 def toROT13():
+    print("Message can only be alphabetic")
+    message = input("Enter message: ").upper()
+
+    key = 13
+    encryp_text = ""
+
+    for i in range(len(message)):
+        temp = ord(message[i]) + key
+        if ord(message[i]) == 32:
+            encryp_text += " "
+        elif temp > 90:
+            temp -= 26
+            encryp_text += chr(temp)
+        else:
+            encryp_text += chr(temp)
+
+    print("Encrypted Text: {}".format(encryp_text))
 
 def fromROT13():
+    print("Message can only be alphabetic")
+    message = input("Enter message: ").upper()
+
+    key = 13
+    decryp_text = ""
+
+    for i in range(len(message)):
+        temp = ord(message[i]) - key
+        if ord(message[i]) == 32:
+            decryp_text += " "
+        elif temp < 65:
+            temp += 26
+            decryp_text += chr(temp)
+        else:
+            decryp_text += chr(temp)
+
+    print("Decrypted Text: {}".format(decryp_text))
 
 
-def toVigenere():
+# def toVigenere():
 
-def fromVigenere():
-
-
-def toMorse():
-
-def fromMorse():
+# def fromVigenere():
 
 
-def toMD5():
+# def toMorse():
 
-def fromMD5():
+# def fromMorse():
 
 
-def toSHA256():
+# def toMD5():
 
-def fromSHA256():
+
+# def toSHA256():
+
+# def fromSHA256():
 
 def encryptMessage():
     print("Which type of encryption you want to use: ")
