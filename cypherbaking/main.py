@@ -1,5 +1,6 @@
 import base64
 from cryptography.fernet import Fernet
+import os
 
 def menu():
     print("*********************************************************************")
@@ -66,10 +67,27 @@ def toFernet():
     # generacion de la clave
     key = Fernet.generate_key()
 
-    # Se genera un archivo llamado filekey.key. La idea es que el archivo       
+    # Se genera un archivo llamado *.key. La idea es que el archivo       
     # contenga una linea, que será un string, es decir, la clave.
-    with open('filekey.key', 'wb') as filekey:
-        filekey.write(key)
+    # Si ya existe dicho archivo y no está vacío, creará otro archivo.
+    print("Escriba el nombre del archivo donde se generará la clave (.key): ")
+    archivoClave = input()
+    if os.stat(archivoClave).st_size == 0:
+        with open(archivoClave, 'wb') as filekey:
+            filekey.write(key)
+    else:
+        print("Ese archivo ya existe, ¿quieres reemplazar el archivo?[Y/n]: ")
+        letra = input()
+        if letra == 'Y' or letra == 'y':
+            with open(archivoClave, 'wb') as filekey:
+                filekey.write(key)
+        elif letra == 'N' or letra == 'n':
+            print("Escriba el nombre del archivo donde se generará la clave (.key): ")
+            archivoClave = input()
+            with open(archivoClave, 'wb') as filekey:
+                filekey.write(key)  
+        else:
+            menu()             
 
     # lectura de la clave
     with open('filekey.key', 'rb') as filekey:
@@ -121,6 +139,7 @@ def encryptMessage():
     print("Which type of encryption you want to use: ")
     print("1. Base 64")
     print("2. Fernet (AES in CBC Mode:")
+    
     option = input()
 
     if option == "1":
