@@ -1,5 +1,5 @@
 import base64
-
+from cryptography.fernet import Fernet
 
 def menu():
     print("*********************************************************************")
@@ -22,8 +22,8 @@ def menu():
     menu = True
 
     while menu:
-        print("1) Encrypt message")
-        print("2) Decrypt message")
+        print("1) Encrypt message/file")
+        print("2) Decrypt message/file")
         print("3) Exit")
 
         opcion = input()
@@ -62,23 +62,83 @@ def fromBase64():
     cont = input("Press ENTER to continue")
     menu()
 
+def toFernet():
+    # generacion de la clave
+    key = Fernet.generate_key()
+
+    # Se genera un archivo llamado filekey.key. La idea es que el archivo       
+    # contenga una linea, que será un string, es decir, la clave.
+    with open('filekey.key', 'wb') as filekey:
+        filekey.write(key)
+
+    # lectura de la clave
+    with open('filekey.key', 'rb') as filekey:
+        key = filekey.read()
+
+    # se guarda en variable la clave generada
+    fernet = Fernet(key)
+
+    # seleccionamos el archivo a encriptar
+    print("Selecciona el archivo a encriptar: (Recuerda que si el archivo no está en esta carpeta, debes definir su 'path'): ")
+    archivo = input()
+
+    # lectura del archivo para encriptar
+    with open(archivo, 'rb') as file:
+        original = file.read()
+    
+    # función para encriptar el archivo
+    encrypted = fernet.encrypt(original)
+
+    # se abre el archivo en modo escritura y
+    # se escribe el dato encriptado
+    with open(archivo, 'wb') as encrypted_file:
+        encrypted_file.write(encrypted)
+
+def fromFernet():
+    # lectura de la clave
+    with open('filekey.key', 'rb') as filekey:
+        key = filekey.read()
+
+    fernet = Fernet(key)
+
+    # seleccionamos el archivo a encriptar
+    print("Selecciona el archivo a descriptar: (Recuerda que si el archivo no está en esta carpeta, debes definir su 'path'): ")
+    archivo2 = input()
+
+    # lecura del archivo encriptado
+    with open(archivo2, 'rb') as enc_file:
+	    encrypted = enc_file.read()
+
+    # decriptacion del archivo encriptado
+    decrypted = fernet.decrypt(encrypted)
+
+    # abrir el archivo encriptado en modo escritura
+    with open(archivo2, 'wb') as dec_file:
+	    dec_file.write(decrypted)    
+
 
 def encryptMessage():
     print("Which type of encryption you want to use: ")
     print("1. Base 64")
+    print("2. Fernet (AES in CBC Mode:")
     option = input()
 
     if option == "1":
         toBase64()
+    else: 
+        toFernet()
 
 
 def decryptMessage():
-    print("Which type of encryption you want to use: ")
+    print("Which type of decryption you want to use: ")
     print("1. Base 64")
+    print("2. Fernet (AES in CBC Mode:")
+
     option = input()
 
     if option == "1":
         fromBase64()
-
+    else:
+        fromFernet()    
 
 menu()
