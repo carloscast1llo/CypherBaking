@@ -260,11 +260,46 @@ def fromXor():
 
     print("Decrypted Text: {}".format(decryp_text))
 
+def toCesar():
+
+def fromCesar():
+
+
+def toROT13():
+
+def fromROT13():
+
+
+def toVigenere():
+
+def fromVigenere():
+
+
+def toMorse():
+
+def fromMorse():
+
+
+def toMD5():
+
+def fromMD5():
+
+
+def toSHA256():
+
+def fromSHA256():
+
 def encryptMessage():
     print("Which type of encryption you want to use: ")
     print("1. Base 64")
     print("2. Fernet (AES in CBC Mode:")
     print("3. XOR")
+    print("4. Cesar")
+    print("5. ROT13")
+    print("6. Vigenere")
+    print("7. Morse")
+    print("8. MD5")
+    print("9. SHA256")
     
     option = input()
 
@@ -272,8 +307,20 @@ def encryptMessage():
         toBase64()
     elif option == "2":
         toFernet()
-    else:
+    elif option == "3":
         toXor()
+    elif option == "4":
+        toCesar()
+    elif option == "5":
+        toROT13()
+    elif option == "6":
+        toVigenere()
+    elif option == "7":
+        toMorse()
+    elif option == "8":
+        toMD5()
+    else:
+        toSHA256()
 
 
 def decryptMessage():
@@ -281,6 +328,12 @@ def decryptMessage():
     print("1. Base 64")
     print("2. Fernet (AES in CBC Mode:")
     print("3. XOR")
+    print("4. Cesar")
+    print("5. ROT13")
+    print("6. Vigenere")
+    print("7. Morse")
+    print("8. MD5")
+    print("9. SHA256")
 
     option = input()
 
@@ -288,7 +341,19 @@ def decryptMessage():
         fromBase64()
     elif option == "2":
         fromFernet()
-    else:
+    elif option == "3":
         fromXor()
+    elif option == "4":
+        fromCesar()
+    elif option == "5":
+        fromROT13()
+    elif option == "6":
+        fromVigenere()
+    elif option == "7":
+        fromMorse()
+    elif option == "8":
+        fromMD5()
+    else:
+        toSHA256()
 
 menu()
