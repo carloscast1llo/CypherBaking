@@ -132,32 +132,75 @@ def fromFernet():
 
     # abrir el archivo encriptado en modo escritura
     with open(archivo2, 'wb') as dec_file:
-	    dec_file.write(decrypted)    
+	    dec_file.write(decrypted)
 
+def toXor():
+    msg = input("Enter message: ")
+    key = input("Enter key: ")
+
+    encrypt_hex = ""
+    key_itr = 0
+    for i in range(len(msg)):
+        temp = ord(msg[i]) ^ ord(key[key_itr])
+        #
+        encrypt_hex += hex(temp)[2:].zfill(2)
+        key_itr += 1
+        if key_itr >= len(key):
+            #
+            key_itr = 0
+
+    print("Encrypted Text: {}".format(encrypt_hex))
+
+def fromXor():
+    msg = input("Enter message: ")
+    key = input("Enter key: ")
+
+    hex_to_uni = ""
+    for i in range(0, len(msg), 2):
+        hex_to_uni += bytes.fromhex(msg[i:i + 2]).decode('utf-8')
+
+    decryp_text = ""
+    key_itr = 0
+    for i in range(len(hex_to_uni)):
+        temp = ord(hex_to_uni[i]) ^ ord(key[key_itr])
+        #
+        decryp_text += chr(temp)
+        key_itr += 1
+        if key_itr >= len(key):
+            #
+            key_itr = 0
+
+    print("Decrypted Text: {}".format(decryp_text))
 
 def encryptMessage():
     print("Which type of encryption you want to use: ")
     print("1. Base 64")
     print("2. Fernet (AES in CBC Mode:")
+    print("3. XOR")
     
     option = input()
 
     if option == "1":
         toBase64()
-    else: 
+    elif option == "2":
         toFernet()
+    else:
+        toXor()
 
 
 def decryptMessage():
     print("Which type of decryption you want to use: ")
     print("1. Base 64")
     print("2. Fernet (AES in CBC Mode:")
+    print("3. XOR")
 
     option = input()
 
     if option == "1":
         fromBase64()
+    elif option == "2":
+        fromFernet()
     else:
-        fromFernet()    
+        fromXor()
 
 menu()
