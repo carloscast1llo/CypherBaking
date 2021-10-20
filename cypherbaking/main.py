@@ -158,36 +158,48 @@ def toFernet():
     # Se genera un archivo llamado *.key. La idea es que el archivo       
     # contenga una linea, que será un string, es decir, la clave.
     # Si ya existe dicho archivo y no está vacío, creará otro archivo.
-    print("Escriba el nombre del archivo donde se generará la clave (.key): ")
-    archivoClave = input()
-    if os.stat(archivoClave).st_size == 0:
-        with open(archivoClave, 'wb') as filekey:
-            filekey.write(key)
-    else:
-        print("Ese archivo ya existe, ¿quieres reemplazar el archivo?[Y/n]: ")
-        letra = input()
-        if letra == 'Y' or letra == 'y':
+    print("1) Generate new key")
+    print("2) Use a key")
+    print("3) Exit")
+    opcion = input()
+    if (opcion == '1'):
+        print ("Enter the name of the file where the key will be generated (.key):")  
+        archivoClave = input()
+        if os.path.exists(archivoClave) == False or os.stat(archivoClave).st_size == 0:  
             with open(archivoClave, 'wb') as filekey:
                 filekey.write(key)
-        elif letra == 'N' or letra == 'n':
-            print("Escriba el nombre del archivo donde se generará la clave (.key): ")
-            archivoClave = input()
-            with open(archivoClave, 'wb') as filekey:
-                filekey.write(key)  
         else:
-            menu()             
-
+            print ("That file already exists, do you want to replace the file? [Y/n]:")        
+            letra = input()
+            if letra == 'Y' or letra == 'y':
+                with open(archivoClave, 'wb') as filekey:
+                    filekey.write(key)
+            elif letra == 'N' or letra == 'n':
+                print ("Enter the name of the file where the key will be generated (.key):")             
+                archivoClave = input()
+                with open(archivoClave, 'wb') as filekey:
+                    filekey.write(key)  
+            else:
+                menu()             
+    elif(opcion == '2'):
+        print("Enter the file's name that contains the key:")            
+        archivoClave = input()
     # lectura de la clave
-    with open('filekey.key', 'rb') as filekey:
+    with open(archivoClave, 'rb') as filekey:
         key = filekey.read()
 
     # se guarda en variable la clave generada
     fernet = Fernet(key)
 
     # seleccionamos el archivo a encriptar
-    print("Selecciona el archivo a encriptar: (Recuerda que si el archivo no está en esta carpeta, debes definir su 'path'): ")
+    print("Select the file to encrypt (Remember that if the file is not in this folder, you must define its path):")
     archivo = input()
-
+    print("Do you want to create a new file with the encrypted data in order to avoid overwriting the existing one?[Y/n]: ")
+    opcion = input()
+    if opcion == 'Y' or opcion == 'y':
+        print("Choose the file's name: (Define the file's type)")    
+        archivo2 = input()
+        file = open(archivo2, "w")
     # lectura del archivo para encriptar
     with open(archivo, 'rb') as file:
         original = file.read()
@@ -197,30 +209,32 @@ def toFernet():
 
     # se abre el archivo en modo escritura y
     # se escribe el dato encriptado
-    with open(archivo, 'wb') as encrypted_file:
+    with open(archivo2, 'wb') as encrypted_file:
         encrypted_file.write(encrypted)
 
 def fromFernet():
     # lectura de la clave
-    with open('filekey.key', 'rb') as filekey:
+    print("Choose the file that contains the key: ")
+    archivoClave = input()
+    with open(archivoClave, 'rb') as filekey:
         key = filekey.read()
 
     fernet = Fernet(key)
 
     # seleccionamos el archivo a encriptar
     print("Selecciona el archivo a descriptar: (Recuerda que si el archivo no está en esta carpeta, debes definir su 'path'): ")
-    archivo2 = input()
+    archivo = input()
 
     # lecura del archivo encriptado
-    with open(archivo2, 'rb') as enc_file:
-	    encrypted = enc_file.read()
+    with open(archivo, 'rb') as enc_file:
+        encrypted = enc_file.read()
 
     # decriptacion del archivo encriptado
     decrypted = fernet.decrypt(encrypted)
 
     # abrir el archivo encriptado en modo escritura
-    with open(archivo2, 'wb') as dec_file:
-	    dec_file.write(decrypted)
+    with open(archivo, 'wb') as dec_file:
+        dec_file.write(decrypted)
 
 def toXor():
     msg = input("Enter message: ")
