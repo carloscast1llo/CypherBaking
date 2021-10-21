@@ -152,6 +152,7 @@ def fromBase64():
     menu()
 
 def toFernet():
+    
     # generacion de la clave
     key = Fernet.generate_key()
 
@@ -184,6 +185,8 @@ def toFernet():
     elif(opcion == '2'):
         print("Enter the file's name that contains the key:")            
         archivoClave = input()
+    else:
+        menu()    
     # lectura de la clave
     with open(archivoClave, 'rb') as filekey:
         key = filekey.read()
@@ -191,27 +194,69 @@ def toFernet():
     # se guarda en variable la clave generada
     fernet = Fernet(key)
 
-    # seleccionamos el archivo a encriptar
-    print("Select the file to encrypt (Remember that if the file is not in this folder, you must define its path):")
-    archivo = input()
-    print("Do you want to create a new file with the encrypted data in order to avoid overwriting the existing one?[Y/n]: ")
+    print("1) Encrypt a file")
+    print("2) Encrypt a plain text")
+    print("3) Exit")
     opcion = input()
-    if opcion == 'Y' or opcion == 'y':
-        print("Choose the file's name: (Define the file's type)")    
-        archivo2 = input()
-        file = open(archivo2, "w")
-    # lectura del archivo para encriptar
-    with open(archivo, 'rb') as file:
-        original = file.read()
-    
-    # función para encriptar el archivo
-    encrypted = fernet.encrypt(original)
+    if opcion == '1':
 
-    # se abre el archivo en modo escritura y
-    # se escribe el dato encriptado
-    with open(archivo2, 'wb') as encrypted_file:
-        encrypted_file.write(encrypted)
+        # seleccionamos el archivo a encriptar
+        print("Select the file to encrypt (Remember that if the file is not in this folder, you must define its path):")
+        archivo = input()
+        print("Do you want to create a new file with the encrypted data in order to avoid overwriting the existing one?[Y/n]: ")
+        opcion = input()
+        if opcion == 'Y' or opcion == 'y':
+            print("Choose the file's name (Define the file's type): ")    
+            archivo = input()
+            file = open(archivo, "w")
+        # lectura del archivo para encriptar
+        with open(archivo, 'rb') as file:
+            original = file.read()
+        
+        # función para encriptar el archivo
+        encrypted = fernet.encrypt(original)
 
+        # se abre el archivo en modo escritura y
+        # se escribe el dato encriptado
+        with open(archivo, 'wb') as encrypted_file:
+            encrypted_file.write(encrypted)
+
+    elif opcion == '2':
+        print("Write the plain text you want to encrypt: ")
+        plaintext = input()
+        plaintext_byted = plaintext.encode()
+        plaintext_Encrypted = fernet.encrypt(plaintext_byted)
+        print("1) Save encrypted data in a file")
+        print("2) Print encrypted data")
+        print("3) Exit")
+        opcion = input()    
+        if opcion == '1':
+            print("Write the file's name that will contain the encrypted data: ") 
+            archivoTexto = input()
+            if os.path.exists(archivoClave) == False or os.stat(archivoClave).st_size == 0:  
+                with open(archivoTexto, 'wb') as encrypted_Textfile:
+                    encrypted_Textfile.write(plaintext_Encrypted)
+            else:
+                print ("That file already exists, do you want to replace the file? [Y/n]:")    
+                letra = input()
+                if letra == 'Y' or letra == 'y':
+                    with open(archivoTexto, 'wb') as filekey:
+                        filekey.write(key)
+                elif letra == 'N' or letra == 'n':
+                    print ("Enter the name of the file that will contain the encrypted data: ")             
+                    archivoTexto = input()
+                    with open(archivoTexto, 'wb') as filekey:
+                        filekey.write(key)  
+                else:
+                    menu()             
+        elif opcion == '2':
+            print(plaintext_Encrypted)  
+        elif opcion == '3':
+            menu()       
+    elif opcion == '3':
+        menu()        
+
+        
 def fromFernet():
     # lectura de la clave
     print("Choose the file that contains the key: ")
@@ -222,7 +267,7 @@ def fromFernet():
     fernet = Fernet(key)
 
     # seleccionamos el archivo a encriptar
-    print("Selecciona el archivo a descriptar: (Recuerda que si el archivo no está en esta carpeta, debes definir su 'path'): ")
+    print("Select the file to decrypt (Remember that if the file is not in this folder, you must define its path):")
     archivo = input()
 
     # lecura del archivo encriptado
@@ -274,7 +319,7 @@ def fromXor():
 
     print("Decrypted Text: {}".format(decryp_text))
 
-def toCesar():
+"""def toCesar():
 
 def fromCesar():
 
@@ -302,11 +347,11 @@ def fromMD5():
 def toSHA256():
 
 def fromSHA256():
-
+"""
 def encryptMessage():
     print("Which type of encryption you want to use: ")
     print("1. Base 64")
-    print("2. Fernet (AES in CBC Mode:")
+    print("2. Fernet (AES in CBC Mode)")
     print("3. XOR")
     print("4. Cesar")
     print("5. ROT13")
@@ -333,8 +378,10 @@ def encryptMessage():
         toMorse()
     elif option == "8":
         toMD5()
-    else:
+    elif option == '9':
         toSHA256()
+    else:
+        menu()    
 
 
 def decryptMessage():
