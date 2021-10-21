@@ -1,7 +1,7 @@
 # CypherBaking
 
 - @carloscast1llo
-- @dario
+- @DarioAlRio
 - @lrluque
 - @pau963
 - @panuwu
