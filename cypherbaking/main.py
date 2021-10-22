@@ -1,7 +1,7 @@
 import base64
 from cryptography.fernet import Fernet
 import os
-
+import string
 def menu():
     print("*********************************************************************")
     print("""
@@ -204,19 +204,16 @@ def toFernet():
         print("Select the file to encrypt (Remember that if the file is not in this folder, you must define its path):")
         archivo = input()
         if os.path.exists(archivoClave) == False or os.stat(archivoClave).st_size == 0:  
-            with open(archivo, 'wb') as encrypted_Textfile:
-                encrypted_Textfile.write(archivo)
+            open(archivo, 'r') 
         else:
             print ("That file already exists, do you want to replace the file? [Y/n]:")    
             letra = input()
             if letra == 'Y' or letra == 'y':
-                with open(archivo, 'wb') as encrypted_file:
-                    encrypted_file.write(key)
+                open(archivo, 'r') 
             elif letra == 'N' or letra == 'n':
                 print ("Enter the name of the file that will contain the encrypted data: ")             
                 archivo = input()
-                with open(archivo, 'wb') as encrypted_file:
-                    encrypted_file.write(key)  
+                open(archivo, 'r') 
             else:
                 menu() 
             
@@ -251,16 +248,13 @@ def toFernet():
                 print ("That file already exists, do you want to replace the file? [Y/n]:")    
                 letra = input()
                 if letra == 'Y' or letra == 'y':
-                    if os.path.exists(archivoTexto) == False or os.stat(archivoTexto).st_size == 0:  
                         with open(archivoTexto, 'wb') as encrypted_textFile:
-                            encrypted_textFile.write(key)
-                    else: 
-                        menu()        
+                            encrypted_textFile.write(plaintext_Encrypted)    
                 elif letra == 'N' or letra == 'n':
                     print ("Enter the name of the file that will contain the encrypted data: ")             
                     archivoTexto = input()
                     with open(archivoTexto, 'wb') as encrypted_textFile:
-                        encrypted_textFile.write(key)  
+                        encrypted_textFile.write(plaintext_Encrypted)  
                 else:
                     menu()             
         elif opcion == '2':
@@ -334,38 +328,57 @@ def fromXor():
     print("Decrypted Text: {}".format(decryp_text))
 
 def toCesar():
-
+    print("Please enter your plaintext: ")
+    plainText = input()
+    print("Please enter your key: ")
+    key = input()
+    # la clave solo puede ser un integer
+    while isinstance(int(key), int) == False:
+        # preguntamos otra vez si no es un integer
+        key = input("Please enter your key (integers only!): ")
+    key = int(key)
+    alphabet = string.printable
+    cipher = ""
+    new_ind = 0 # this value will be changed later  
+    for i in plainText:
+        if i.lower() in alphabet:
+            new_ind = alphabet.index(i) + key
+            cipher += alphabet[new_ind % 26]
+        else:
+            cipher += i    
     print("1) Print cipher text")
     print("2) Save cipher text in a file")
     print("3) Exit")
     option = input()
     if option == '1':
-        return cipher
+        print(cipher)
     elif option == '2':
         print("Write the file's name that will contain the encrypted data: ") 
         archivoTexto = input()
         if os.path.exists(archivoTexto) == False or os.stat(archivoTexto).st_size == 0:  
             with open(archivoTexto, 'wb') as encrypted_Textfile:
+                    cipher = os.fsencode(cipher)
                     encrypted_Textfile.write(cipher)
         else:
             print ("That file already exists, do you want to replace the file? [Y/n]:")    
             letra = input()
             if letra == 'Y' or letra == 'y':
                 with open(archivoTexto, 'wb') as encrypted_Textfile:
+                        cipher = os.fsencode(cipher)
                         encrypted_Textfile.write(cipher)
             elif letra == 'N' or letra == 'n':
                 print ("Enter the name of the file that will contain the encrypted data: ")             
                 archivoTexto = input()
                 if os.path.exists(archivoTexto) == False or os.stat(archivoTexto).st_size == 0:  
                     with open(archivoTexto, 'wb') as encrypted_Textfile:
+                        cipher = os.fsencode(cipher)
                         encrypted_Textfile.write(cipher)
                 else:
                     menu()
                 
 
 
-# def fromCesar():
-
+#def fromCesar():
 
 def toROT13():
     print("Message can only be alphabetic")
