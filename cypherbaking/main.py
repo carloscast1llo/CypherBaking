@@ -2,6 +2,7 @@ import base64
 from cryptography.fernet import Fernet
 import os
 import string
+
 def menu():
     print("*********************************************************************")
     print("""
@@ -218,8 +219,7 @@ def toFernet():
                 menu() 
             
         # lectura del archivo para encriptar
-        with open(archivo, 'rb') as file:
-            original = file.read()
+        c
         
         # función para encriptar el archivo
         encrypted = fernet.encrypt(original)
@@ -278,7 +278,7 @@ def fromFernet():
     print("Select the file to decrypt (Remember that if the file is not in this folder, you must define its path):")
     archivo = input()
 
-    # lecura del archivo encriptado
+    # lectura del archivo encriptado
     with open(archivo, 'rb') as enc_file:
         encrypted = enc_file.read()
 
@@ -291,7 +291,7 @@ def fromFernet():
 
 def toXor():
     msg = input("Enter message: ")
-    key = input("Enter key: ")
+    key = input("Enter key (number from 0 to 100): ")
 
     encrypt_hex = ""
     key_itr = 0
@@ -304,7 +304,35 @@ def toXor():
             #
             key_itr = 0
 
-    print("Encrypted Text: {}".format(encrypt_hex))
+    print("1) Print XOR text")
+    print("2) Save XOR text in a file")
+    print("3) Exit")
+    option = input()
+    if option == '1':
+        print(encrypt_hex)
+    elif option == '2':
+        print("Write the file's name that will contain the encrypted data: ")
+        textFile = input()
+        if os.path.exists(textFile) == False or os.stat(textFile).st_size == 0:
+            with open(textFile, 'wb') as encrypted_Textfile:
+                    encrypt_hex = os.fsencode(encrypt_hex)
+                    encrypted_Textfile.write(encrypt_hex)
+        else:
+            print ("That file already exists, do you want to replace the file? [Y/n]:")
+            letter = input()
+            if letter == 'Y' or letter == 'y':
+                with open(textFile, 'wb') as encrypted_Textfile:
+                        encrypt_hex = os.fsencode(encrypt_hex)
+                        encrypted_Textfile.write(encrypt_hex)
+            elif letter == 'N' or letter == 'n':
+                print ("Enter the name of the file that will contain the encrypted data: ")
+                textFile = input()
+                if os.path.exists(textFile) == False or os.stat(textFile).st_size == 0:
+                    with open(textFile, 'wb') as encrypted_Textfile:
+                        encrypt_hex = os.fsencode(encrypt_hex)
+                        encrypted_Textfile.write(encrypt_hex)
+                else:
+                    menu()
 
 def fromXor():
     msg = input("Enter message: ")
@@ -385,19 +413,49 @@ def toROT13():
     message = input("Enter message: ").upper()
 
     key = 13
-    encryp_text = ""
+    encrypt_text = ""
 
     for i in range(len(message)):
         temp = ord(message[i]) + key
         if ord(message[i]) == 32:
-            encryp_text += " "
+            encrypt_text += " "
         elif temp > 90:
             temp -= 26
-            encryp_text += chr(temp)
+            encrypt_text += chr(temp)
         else:
-            encryp_text += chr(temp)
+            encrypt_text += chr(temp)
 
-    print("Encrypted Text: {}".format(encryp_text))
+    print("1) Print ROT13 text")
+    print("2) Save ROT13 text in a file")
+    print("3) Exit")
+    option = input()
+    if option == '1':
+        print(encrypt_text)
+    elif option == '2':
+        print("Write the file's name that will contain the encrypted data: ")
+        textFile = input()
+        if os.path.exists(textFile) == False or os.stat(textFile).st_size == 0:
+            with open(textFile, 'wb') as encrypted_Textfile:
+                    encrypt_text = os.fsencode(encrypt_text)
+                    encrypted_Textfile.write(encrypt_text)
+        else:
+            print ("That file already exists, do you want to replace the file? [Y/n]:")
+            letter = input()
+            if letter == 'Y' or letter == 'y':
+                with open(textFile, 'wb') as encrypted_Textfile:
+                        encrypt_text = os.fsencode(encrypt_text)
+                        encrypted_Textfile.write(encrypt_text)
+            elif letter == 'N' or letter == 'n':
+                print ("Enter the name of the file that will contain the encrypted data: ")
+                textFile = input()
+                if os.path.exists(textFile) == False or os.stat(textFile).st_size == 0:
+                    with open(textFile, 'wb') as encrypted_Textfile:
+                        encrypt_text = os.fsencode(encrypt_text)
+                        encrypted_Textfile.write(encrypt_text)
+                else:
+                    menu()
+
+    print("Encrypted Text: {}".format(encrypt_text))
 
 def fromROT13():
     print("Message can only be alphabetic")
