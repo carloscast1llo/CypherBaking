@@ -493,8 +493,12 @@ def toMD5():
     cont = input("Press ENTER to continue")
     menu()
 
-# def toSHA256():
-
+def toSHA256():
+    message = input('Write the message you want to hash: ')
+    encriptedMessage = hashlib.sha256(message.encode("utf-8")).hexdigest()
+    print('The hashed message is '+encriptedMessage)
+    cont = input("Press ENTER to continue")
+    menu()
 
  # def fromSHA256():
 
@@ -530,8 +534,8 @@ def encryptMessage():
      #   toMorse()
     elif option == "8":
         toMD5()
-   # elif option == '9':
-      #  toSHA256()
+    elif option == '9':
+      toSHA256()
     else:
         menu()    
 
@@ -564,9 +568,9 @@ def decryptMessage():
     #    fromVigenere()
     #elif option == "7":
      #   fromMorse()
-    elif option == "8":
-        print(" (Go to (https://crackstation.net/))")
-    #else:
-       # toSHA256()
+    else:
+        print(" (Try in (https://crackstation.net/))")
+        cont = input("Press ENTER to continue")
+        menu()
 
 menu()
