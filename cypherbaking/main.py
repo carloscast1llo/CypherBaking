@@ -1,7 +1,8 @@
 import base64
-from cryptography.fernet import Fernet
+# cryptography.fernet import Fernet
 import os
 import string
+import hashlib
 
 def menu():
     print("*********************************************************************")
@@ -219,15 +220,15 @@ def toFernet():
                 menu() 
             
         # lectura del archivo para encriptar
-        c
+        #c
         
         # función para encriptar el archivo
-        encrypted = fernet.encrypt(original)
+        #encrypted = fernet.encrypt(original)
 
         # se abre el archivo en modo escritura y
         # se escribe el dato encriptado
-        with open(archivo, 'wb') as encrypted_file:
-            encrypted_file.write(encrypted)
+        #with open(archivo, 'wb') as encrypted_file:
+           # encrypted_file.write(encrypted)
 
     elif opcion == '2':
         print("Write the plain text you want to encrypt: ")
@@ -485,8 +486,10 @@ def fromROT13():
 # def fromMorse():
 
 
-# def toMD5():
-
+def toMD5():
+    message = input('Write the message you want to hash: ')
+    encriptedMessage = hashlib.md5(message.encode("utf-8")).hexdigest()
+    print('The encrypted message is '+encriptedMessage)
 
 # def toSHA256():
 
@@ -519,14 +522,14 @@ def encryptMessage():
         toCesar()
     elif option == "5":
         toROT13()
-    elif option == "6":
-        toVigenere()
-    elif option == "7":
-        toMorse()
+    #elif option == "6":
+     #   toVigenere()
+    #elif option == "7":
+     #   toMorse()
     elif option == "8":
         toMD5()
-    elif option == '9':
-        toSHA256()
+   # elif option == '9':
+      #  toSHA256()
     else:
         menu()    
 
@@ -551,17 +554,17 @@ def decryptMessage():
         fromFernet()
     elif option == "3":
         fromXor()
-    elif option == "4":
-        fromCesar()
+    #elif option == "4":
+    #   fromCesar()
     elif option == "5":
         fromROT13()
-    elif option == "6":
-        fromVigenere()
-    elif option == "7":
-        fromMorse()
+    #elif option == "6":
+    #    fromVigenere()
+    #elif option == "7":
+     #   fromMorse()
     elif option == "8":
         print(" (Go to (https://crackstation.net/))")
-    else:
-        toSHA256()
+    #else:
+       # toSHA256()
 
 menu()
