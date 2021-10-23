@@ -489,7 +489,9 @@ def fromROT13():
 def toMD5():
     message = input('Write the message you want to hash: ')
     encriptedMessage = hashlib.md5(message.encode("utf-8")).hexdigest()
-    print('The encrypted message is '+encriptedMessage)
+    print('The hashed message is '+encriptedMessage)
+    cont = input("Press ENTER to continue")
+    menu()
 
 # def toSHA256():
 
