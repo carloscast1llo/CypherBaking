@@ -455,8 +455,6 @@ def toROT13():
                 else:
                     menu()
 
-    print("Encrypted Text: {}".format(encrypt_text))
-
 def fromROT13():
     print("Message can only be alphabetic")
     message = input("Enter message: ").upper()
