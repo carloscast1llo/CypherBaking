@@ -1,5 +1,5 @@
 import base64
-# cryptography.fernet import Fernet
+from cryptography.fernet import Fernet
 import os
 import string
 import hashlib
@@ -220,15 +220,17 @@ def toFernet():
                 menu() 
             
         # lectura del archivo para encriptar
-        #c
+        with open(archivo, 'rb') as file:
+            original = file.read()
+        
         
         # función para encriptar el archivo
-        #encrypted = fernet.encrypt(original)
+        encrypted = fernet.encrypt(original)
 
         # se abre el archivo en modo escritura y
         # se escribe el dato encriptado
-        #with open(archivo, 'wb') as encrypted_file:
-           # encrypted_file.write(encrypted)
+        with open(archivo, 'wb') as encrypted_file:
+            encrypted_file.write(encrypted)
 
     elif opcion == '2':
         print("Write the plain text you want to encrypt: ")
