@@ -21,7 +21,7 @@ def menu():
     print("  La Panaderia")
     print("  https://github.com/carloscast1llo/CypherBaking")
     print("*********************************************************************")
-    print("Welcome to Cyberbaking")
+    print("Welcome to Cypherbaking")
     menu = True
 
     while menu:
